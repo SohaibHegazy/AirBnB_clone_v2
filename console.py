@@ -47,32 +47,31 @@ class HBNBCommand(cmd.Cmd):
         '''
         pass
 
-    def do_create(self, args):
-        '''
-        Update the def do_create(self, arg): function of command interpreter
-        (console.py) to allow for object creation with given parameters
-        '''
 
-        commands = args.split()
+        def do_create(self, args):
+        """Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        obj = eval("{}()".format(commands[0]))
-        for command in commands[1:]:
-            param = command.split("=")
-            param_type = literal_eval(param[1])
-            if type(param_type) is str:
-                param[1] = param[1].strip('"').replace("_", " ")
-                param[1] = param[1].replace('\\"', '"')
-                value = param[1]
-            elif type(param_type) is int or type(param_type) is float:
-                value = eval(param[1])
-            setattr(obj, param[0], value)
-        obj.save()
-        print(obj.id)
+
+        try:
+            class_name, *params = args.split(' ')
+            if class_name not in self.classes:
+                print("** class doesn't exist **")
+                return
+
+            obj_params = {}
+            for param in params:
+                key, value = param.split('=')
+                obj_params[key] = value
+
+            # Create an instance of the specified class with given parameters
+            obj = self.classes[class_name](**obj_params)
+            obj.save()
+            print(obj.id)
+        except Exception as e:
+            print(f"Error: {str(e)}")
+
 
     def do_show(self, arg):
         '''
