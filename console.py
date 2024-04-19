@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        obj = eval(commands[0])
+        obj = eval("{}()".format(commands[0]))
         for command in commands[1:]:
             param = command.split("=")
             param_type = literal_eval(param[1])
