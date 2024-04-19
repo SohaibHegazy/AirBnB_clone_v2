@@ -66,6 +66,7 @@ class HBNBCommand(cmd.Cmd):
             param_type = literal_eval(param[1])
             if type(param_type) is str:
                 param[1] = param[1].strip('"').replace("_", " ")
+                param[1] = param[1].replace('\\"', '"')
                 value = param[1]
             elif type(param_type) is int or type(param_type) is float:
                 value = eval(param[1])
