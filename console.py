@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+from ast import literal_eval
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -113,31 +114,36 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-    '''
-    Update the def do_create(self, arg): function of command interpreter
-    (console.py) to allow for object creation with given parameters
-    '''
+    def do_create(self, line):
+        """Creates a new instance of BaseModel, saves it
+        Exceptions:
+            SyntaxError: when there is no args given
+            NameError: when there is no object taht has the name
+        """
+        try:
+            if not line:
+                raise SyntaxError()
+            my_list = line.split(" ")
+            obj = eval("{}()".format(my_list[0]))
+            # Task 02 - to allow for object creation with n given parameters
+            for parameter_i in my_list[1:]:
+                parameter = parameter_i.split("=")
+                item_type = literal_eval(parameter[1])
+                if type(item_type) is str:
+                    parameter[1] = parameter[1].replace('_', ' ')
+                    var = parameter[1][1:-1].replace('"', '\\"')
+                    setattr(obj, parameter[0], var)
+                elif type(item_type) is int or type(item_type) is float:
+                    setattr(obj, parameter[0], eval(parameter[1]))
 
-    commands = args.split()
-    if not args:
-        print("** class name missing **")
-        return
-    elif args not in HBNBCommand.classes:
-        print("** class doesn't exist **")
-        return
-    obj = eval(commands[0])
-    for command in commands[1:]:
-        param = command.split("=")
-        param_type = literal_eval(param[1])
-        if type(param_type) is str:
-            param[1] = param[1].strip('"').replace("_", " ")
-            value = param[1]
-        elif type(param_type) is int or type(param_type) is float:
-            value = eval(param[1])
-        setattr(obj, param[0], value)
-    obj.save()
-    print(obj.id)
+            ##############################################################
+            obj.save()
+            print("{}".format(obj.id))
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
+
 
 
     def help_create(self):
