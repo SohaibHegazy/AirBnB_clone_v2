@@ -5,6 +5,7 @@ Use cmd to create the console and prompt
 import cmd
 import re
 import json
+from ast import literal_eval
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -13,6 +14,8 @@ from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
+from shlex import split
+
 
 all_cls = {"BaseModel": BaseModel, "User": User, "State": State,
            "City": City, "Place": Place, "Amenity": Amenity,
