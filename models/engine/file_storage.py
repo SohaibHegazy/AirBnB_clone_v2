@@ -61,9 +61,9 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-    ''' Delete an object from __objects if it’s inside '''
-    if obj:
-        key = "{}.{}".format(type(obj).__name__, obj.id)
-        if key in self.__objects:
-            del self.__objects[key]
+        ''' Delete an object from __objects if it’s inside '''
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if key in self.__objects:
+                del self.__objects[key]
 
