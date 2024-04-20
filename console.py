@@ -6,7 +6,7 @@ import cmd
 import re
 import json
 from ast import literal_eval
-from models.base_model import BaseModel
+#from models.base_model import BaseModel
 from models import storage
 from models.user import User
 from models.state import State
@@ -48,37 +48,35 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-    """Create an object of any class"""
-    if not args:
-        print("** class name missing **")
-        return
-
-    try:
-        class_name, *params = args.split(' ')
-        if class_name not in self.classes:
-            print("** class doesn't exist **")
+        """Create an object of any class"""
+        if not args:
+            print("** class name missing **")
             return
 
-        obj_params = {}
-        for param in params:
-            key, value = param.split('=')
-            # Process the value based on the specified syntax rules
-            if value.startswith('"') and value.endswith('"'):
-                value = value[1:-1]  # Remove double quotes
-                value = value.replace('\\"', '"')  # Unescape escaped quotes
-                value = value.replace('_', ' ')  # Replace underscores with spaces
-            elif '.' in value:
-                value = float(value)
-            else:
-                value = int(value)
-            obj_params[key] = value
+        try:
+            class_name, *params = args.split(' ')
+            if class_name not in self.classes:
+                print("** class doesn't exist **")
+                return
 
-        # Create an instance of the specified class with given parameters
-        obj = self.classes[class_name](**obj_params)
-        obj.save()
-        print(obj.id)
-    except Exception as e:
-        print(f"Error: {str(e)}")
+            obj_params = {}
+            for param in params:
+                key, value = param.split('=')
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1]
+                    value = value.replace('\\"', '"')
+                    value = value.replace('_', ' ')
+                elif '.' in value:
+                    value = float(value)
+                else:
+                    value = int(value)
+                obj_params[key] = value
+
+            obj = self.classes[class_name](**obj_params)
+            obj.save()
+            print(obj.id)
+        except Exception as e:
+            print(f"Error: {str(e)}")
 
 
 
