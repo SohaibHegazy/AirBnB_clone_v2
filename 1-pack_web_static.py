@@ -11,7 +11,7 @@ import os
 def do_pack():
     try: 
         if not os.path.exists("versions"):
-            os.makedirs("versions")
+            local("mkdir -p versions")
 
         now = datetime.now()
         compress_name = "web_static_{}.tgz".format(now.strftime("%Y%m%d%H%M%S"))
