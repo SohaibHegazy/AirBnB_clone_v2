@@ -17,6 +17,7 @@ def do_pack():
         compress_name = "web_static_{}.tgz".format(now.strftime("%Y%m%d%H%M%S"))
         compress_path = "versions/{}".format(compress_name)
         local("tar -cvzf {} web_static".format(compress_path))
+        return compress_path
 
     except:
         return None
