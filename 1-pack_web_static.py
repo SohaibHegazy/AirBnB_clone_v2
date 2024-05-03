@@ -9,15 +9,14 @@ import os
 
 
 def do_pack():
-    try: 
+    try:
         if not os.path.exists("versions"):
             local("mkdir -p versions")
 
         now = datetime.now()
-        compress_name = "web_static_{}.tgz".format(now.strftime("%Y%m%d%H%M%S"))
-        compress_path = "versions/{}".format(compress_name)
-        local("tar -cvzf {} web_static".format(compress_path))
-        return compress_path
-
-    except:
+        arch_name = "web_static_{}.tgz".format(now.strftime("%Y%m%d%H%M%S"))
+        arch_path = "versions/{}".format(arch_name)
+        local("tar -cvzf {} web_static".format(arch_path))
+        return arch_path
+    except Exception:
         return None
