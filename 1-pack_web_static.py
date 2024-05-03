@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-'''
-a Fabric script that generates a .tgz archive from
-the contents of the web_static folder
-'''
+""" fabric function to archive directory """
 from datetime import datetime
 from fabric.api import local
 import os
