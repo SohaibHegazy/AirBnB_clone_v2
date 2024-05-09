@@ -10,6 +10,9 @@ import os
 
 
 def do_pack():
+    '''
+    function to archive the directory to tgz
+    '''
     try:
         if not os.path.exists("versions"):
             local("mkdir -p versions")
